@@ -6,14 +6,11 @@ radius = 250
 clockSegments = 360
 clockBoardWidth = 5
 
-hourMarkLenght = 20
-hourMarkWidth = 3
-
-minuteMarkLenght = 10
-minuteMarkWidht = 1
+markLenghts = [0.08,0.1] #Prosents in decimal form
+markWidths = [3,1]
 
 #Hour, minute, second
-handLenghts = [100,180,200]
+handLenghts = [0.4,0.72,0.8] #Prosents in decimal form
 handWidhts = [10,6,4]
 handColors = ["#000000","#000000","#FF0000"]
 
@@ -26,9 +23,9 @@ def setup():
     turtle.tracer(n = 1, delay=0.1)
     boardDrawer.speed(0)
 
-    #Clock board
-    boardDrawer.pensize(clockBoardWidth)
+def drawBoard():
     boardDrawer.penup()
+    boardDrawer.pensize(clockBoardWidth)
     boardDrawer.setpos(radius,0)
     boardDrawer.setheading(90)
     boardDrawer.pendown()
@@ -36,14 +33,11 @@ def setup():
         boardDrawer.left(360 / clockSegments)
         boardDrawer.forward(2 * math.pi * radius / clockSegments)
     
-    #Markers
+def drawMarkers():
     for i in range(60):
         boardDrawer.penup()
-        dist = minuteMarkLenght
-        width = minuteMarkWidht
-        if(i % 5 == 0):
-            dist = hourMarkLenght
-            width = hourMarkWidth
+        dist = markLenghts[math.ceil(i % 5 / 5)] * radius
+        width = markWidths[math.ceil(i % 5 / 5)]
         boardDrawer.pensize(width)
         boardDrawer.setpos(math.cos(math.pi * 2 / 60 * i) * (radius - dist),math.sin(math.pi * 2 / 60 * i) * (radius - dist))
         boardDrawer.setheading(360 / 60 * i)
@@ -58,13 +52,14 @@ def drawArrows():
         handDrawer.setpos(0,0)
         handDrawer.setheading(90 - (360 * handTime[i]))
         handDrawer.color(handColors[i])
-        handDrawer.pendown()
         handDrawer.pensize(handWidhts[i])
-        handDrawer.forward(handLenghts[i])
-    while(time.localtime().tm_sec / 60 == handTime[2]): #Once time changes, we repeat the function
+        handDrawer.pendown()
+        handDrawer.forward(handLenghts[i] * radius)
+    while(time.localtime().tm_sec / 60 == handTime[2]): #When time changes, we repeat the function
         time.sleep(1.0)
     drawArrows()
 
 setup()
+drawBoard()
+drawMarkers()
 drawArrows()
-input() #Prevents the program from shutting down instantly
