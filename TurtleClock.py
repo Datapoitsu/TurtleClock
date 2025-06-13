@@ -6,11 +6,11 @@ radius = 250
 clockSegments = 360
 clockBoardWidth = 5
 
-markLenghts = [0.08,0.1] #Prosents in decimal form
+markLenghts = [0.08,0.1] #percentage in decimal form
 markWidths = [3,1]
 
 #Hour, minute, second
-handLenghts = [0.4,0.72,0.8] #Prosents in decimal form
+handLenghts = [0.4,0.72,0.8] #percentage in decimal form
 handWidhts = [10,6,4]
 handColors = ["#000000","#000000","#FF0000"]
 
